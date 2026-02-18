@@ -10,6 +10,7 @@ interface CollectionCardProps {
   image: string
   delay: number
   href?: string
+  priority?: boolean
 }
 
 export default function CollectionCard({
@@ -18,6 +19,7 @@ export default function CollectionCard({
   image,
   delay,
   href = '#',
+  priority = false,
 }: CollectionCardProps) {
   const [isHovered, setIsHovered] = useState(false)
 
@@ -45,6 +47,8 @@ export default function CollectionCard({
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
+              priority={priority}
+              loading={priority ? 'eager' : 'lazy'}
             />
           </motion.div>
 

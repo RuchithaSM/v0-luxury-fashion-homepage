@@ -79,6 +79,7 @@ export default function Collections() {
               image={collection.image}
               delay={index * 0.05}
               href={`/collection/${collection.id}`}
+              priority={index < 2}
             />
           ))}
         </motion.div>
