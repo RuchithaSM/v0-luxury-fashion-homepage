@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUXE - Curated Fashion Collection</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Architectural luxury fashion editorial collection">
+    <title>LUXE STUDIO — Fashion Editorial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -25,21 +26,16 @@
             overflow-x: hidden;
         }
 
-        /* Custom Cursor */
+        /* ============ CURSOR ============ */
         html {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="4" fill="%23C8A96E"/><circle cx="16" cy="16" r="12" fill="none" stroke="%23C8A96E" stroke-width="1"/></svg>') 16 16, auto;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="%23C8A96E"/><circle cx="12" cy="12" r="10" fill="none" stroke="%23C8A96E" stroke-width="0.8"/></svg>') 12 12, auto;
         }
 
-        a, button {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="5" fill="%23C8A96E"/><circle cx="16" cy="16" r="12" fill="none" stroke="%23C8A96E" stroke-width="1.5"/></svg>') 16 16, pointer;
+        a, button, .product-card, .scroll-card {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="6" fill="%23C8A96E"/><circle cx="16" cy="16" r="14" fill="none" stroke="%23C8A96E" stroke-width="1"/></svg>') 16 16, pointer;
         }
 
-        /* Grain Texture */
-        @keyframes grain {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(100px, 100px); }
-        }
-
+        /* ============ GRAIN TEXTURE ============ */
         .grain {
             position: fixed;
             top: 0;
@@ -47,63 +43,93 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.03;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/></filter><rect width="100" height="100" filter="url(%23noise)" fill="%23F5F0E8"/></svg>');
-            animation: grain 8s linear infinite;
+            opacity: 0.02;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="5" result="noise"/></filter><rect width="200" height="200" filter="url(%23noise)" fill="%23F5F0E8"/></svg>');
             z-index: -1;
         }
 
-        /* Navigation */
+        /* ============ ANNOUNCEMENT BAR ============ */
+        .announcement {
+            background-color: #141414;
+            padding: 0.8rem 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            border-bottom: 1px solid rgba(200, 169, 110, 0.15);
+            color: #C8A96E;
+        }
+
+        /* ============ NAVIGATION ============ */
         nav {
             position: fixed;
-            top: 0;
+            top: 3rem;
+            left: 0;
+            right: 0;
             width: 100%;
-            padding: 2rem 4rem;
-            z-index: 1000;
+            padding: 1.5rem 0;
+            z-index: 999;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-left: 4rem;
+            padding-right: 4rem;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background-color: transparent;
         }
 
         nav.scrolled {
-            backdrop-filter: blur(10px);
-            background-color: rgba(10, 10, 10, 0.7);
-            padding: 1.5rem 4rem;
-            border-bottom: 1px solid rgba(200, 169, 110, 0.1);
+            backdrop-filter: blur(12px) saturate(180%);
+            background-color: rgba(10, 10, 10, 0.65);
+            border-bottom: 1px solid rgba(200, 169, 110, 0.12);
+            padding: 1.2rem 4rem;
         }
 
         .logo {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-align: center;
+            flex: 1;
+        }
+
+        .nav-left {
+            position: absolute;
+            left: 4rem;
+            display: flex;
+            gap: 3rem;
         }
 
         .nav-links {
             display: flex;
             gap: 3rem;
             list-style: none;
+            flex: 1;
+            justify-content: flex-start;
         }
 
         .nav-links a {
             text-decoration: none;
             color: #F5F0E8;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 500;
+            letter-spacing: 0.06em;
             position: relative;
+            text-transform: uppercase;
             transition: color 0.3s ease;
         }
 
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: -6px;
             left: 0;
             width: 0;
-            height: 2px;
+            height: 1.5px;
             background-color: #C8A96E;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .nav-links a:hover::after {
@@ -111,54 +137,352 @@
         }
 
         .nav-right {
+            position: absolute;
+            right: 4rem;
             display: flex;
             gap: 2rem;
             align-items: center;
         }
 
-        .cart-icon {
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
+        .nav-icons {
+            display: flex;
+            gap: 1.5rem;
         }
 
-        .cart-icon:hover {
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #F5F0E8;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            padding: 0.5rem;
+        }
+
+        .icon-btn:hover {
             color: #C8A96E;
         }
 
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
+        .hamburger {
+            display: none;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            margin-top: 0;
+            gap: 0.4rem;
+            cursor: pointer;
         }
 
-        .hero-image {
+        .hamburger span {
+            width: 24px;
+            height: 1.5px;
+            background-color: #F5F0E8;
+            transition: all 0.3s ease;
+        }
+
+        /* ============ HERO SECTION ============ */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 8rem;
+            overflow: hidden;
+            margin-top: 3rem;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0A0A0A;
+            z-index: -2;
+        }
+
+        .hero-image-placeholder {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, #1a1a1a 0%, #0A0A0A 100%);
-            opacity: 0.4;
-            z-index: 1;
+            z-index: -1;
+            opacity: 0.6;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            text-align: center;
-            max-width: 90%;
-            animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            max-width: 600px;
+            padding-left: 4rem;
+            animation: slideInLeft 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 10vw, 6.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            margin-bottom: 1rem;
+            position: relative;
+            clip-path: inset(0);
+        }
+
+        .hero h1 span {
+            display: block;
+        }
+
+        .hero h1 span:nth-child(1) {
+            animation: clipInHorizontal 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
+            clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+        }
+
+        .hero h1 span:nth-child(2) {
+            animation: clipInHorizontal 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s forwards;
+            clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+        }
+
+        @keyframes clipInHorizontal {
+            to {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-top: 3rem;
+            animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s forwards;
             opacity: 0;
         }
 
         @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-link {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: #C8A96E;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            position: relative;
+            padding-bottom: 0.3rem;
+            transition: color 0.3s ease;
+        }
+
+        .cta-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1.5px;
+            background-color: #C8A96E;
+            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .cta-link:hover::after {
+            width: 0;
+        }
+
+        /* ============ MARQUEE TICKER ============ */
+        .marquee-section {
+            padding: 2.5rem 0;
+            background-color: #141414;
+            border-top: 1px solid rgba(200, 169, 110, 0.12);
+            border-bottom: 1px solid rgba(200, 169, 110, 0.12);
+            overflow: hidden;
+        }
+
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            animation: marqueeScroll 45s linear infinite;
+        }
+
+        @keyframes marqueeScroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 0 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #C8A96E;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        .marquee-item::before {
+            content: '◆';
+            font-size: 0.8rem;
+        }
+
+        /* ============ FEATURED COLLECTION GRID ============ */
+        .featured-section {
+            padding: 6rem 4rem;
+            background-color: #0A0A0A;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #C8A96E;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 12vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+            margin-bottom: 4rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 8rem;
+        }
+
+        .product-card {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            background-color: #141414;
+            group;
+        }
+
+        /* Asymmetric layout: first card is 2x2 */
+        .product-card:nth-child(1) {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+            position: relative;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.06);
+        }
+
+        .product-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(10, 10, 10, 0.98) 40%);
+            padding: 2.5rem 1.5rem 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 10;
+        }
+
+        .product-card:hover .product-overlay {
+            transform: translateY(0);
+        }
+
+        .product-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #C8A96E;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .product-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .product-price {
+            color: #C8A96E;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.05em;
+        }
+
+        .quick-add-btn {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background-color: #C8A96E;
+            color: #0A0A0A;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-add-btn:hover {
+            background-color: #D4B88A;
+            transform: translateY(-2px);
+        }
+
+        /* Staggered load animations */
+        .product-card {
+            opacity: 0;
+            animation: fadeSlideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0s; }
+        .product-card:nth-child(2) { animation-delay: 0.15s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.45s; }
+
+        @keyframes fadeSlideUp {
             from {
                 opacity: 0;
                 transform: translateY(40px);
@@ -169,374 +493,158 @@
             }
         }
 
-        .hero h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(3rem, 12vw, 8rem);
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin-bottom: 2rem;
-            background: linear-gradient(135deg, #F5F0E8 0%, #C8A96E 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            animation: clipReveal 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        @keyframes clipReveal {
-            from {
-                clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-            }
-            to {
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            }
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: #C8A96E;
-            font-weight: 300;
-            letter-spacing: 0.05em;
-            margin-bottom: 3rem;
-            animation: fadeInUp 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
-            opacity: 0;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
-            opacity: 0;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            border: none;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background-color: #C8A96E;
-            color: #0A0A0A;
-        }
-
-        .btn-primary:hover {
-            background-color: #D4B88A;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: #F5F0E8;
-            border: 1px solid #C8A96E;
-        }
-
-        .btn-secondary:hover {
-            background-color: #C8A96E;
-            color: #0A0A0A;
-        }
-
-        /* Marquee Section */
-        .marquee-section {
-            padding: 3rem 0;
-            background-color: #141414;
-            overflow: hidden;
-            border-top: 1px solid rgba(200, 169, 110, 0.2);
-            border-bottom: 1px solid rgba(200, 169, 110, 0.2);
-        }
-
-        .marquee {
-            display: flex;
-            white-space: nowrap;
-            animation: scroll 30s linear infinite;
-        }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .marquee:hover {
-            animation-play-state: paused;
-        }
-
-        .marquee-item {
-            display: inline-block;
-            padding: 0 3rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2rem;
-            font-weight: 600;
-            color: #C8A96E;
-            letter-spacing: 0.05em;
-            flex-shrink: 0;
-        }
-
-        /* Products Section */
-        .products-section {
-            padding: 6rem 4rem;
-        }
-
-        .section-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.5rem, 8vw, 4rem);
-            font-weight: 700;
-            margin-bottom: 4rem;
-            letter-spacing: 0.02em;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 6rem;
-        }
-
-        .product-card {
-            position: relative;
-            overflow: hidden;
-            aspect-ratio: 3/4;
-            background-color: #141414;
-            cursor: pointer;
-            group;
-        }
-
-        .product-card:nth-child(1) {
-            grid-column: span 2;
-            grid-row: span 2;
-            animation: staggerLoad 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0s forwards;
-            opacity: 0;
-        }
-
-        .product-card:nth-child(2) {
-            animation: staggerLoad 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
-            opacity: 0;
-        }
-
-        .product-card:nth-child(3) {
-            animation: staggerLoad 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
-            opacity: 0;
-        }
-
-        .product-card:nth-child(4) {
-            animation: staggerLoad 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
-            opacity: 0;
-        }
-
-        @keyframes staggerLoad {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .product-image {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 30%, rgba(200, 169, 110, 0.1), transparent);
-        }
-
-        .product-card:hover .product-image {
-            transform: scale(1.08);
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .product-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(10, 10, 10, 0.95) 50%);
-            padding: 2rem;
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10;
-        }
-
-        .product-card:hover .product-overlay {
-            transform: translateY(0);
-        }
-
-        .product-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-price {
-            color: #C8A96E;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .quick-add {
-            width: 100%;
-            padding: 0.8rem;
-            background-color: #C8A96E;
-            color: #0A0A0A;
-            border: none;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .quick-add:hover {
-            background-color: #D4B88A;
-        }
-
-        /* Horizontal Scroll Section */
-        .scroll-section {
+        /* ============ HORIZONTAL SCROLL ROW ============ */
+        .arrivals-section {
             padding: 4rem;
             background-color: #0A0A0A;
         }
 
-        .scroll-title {
+        .arrivals-title {
             font-family: 'Cormorant Garamond', serif;
             font-size: 2.5rem;
-            margin-bottom: 2rem;
-            font-weight: 700;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            letter-spacing: 0.02em;
+        }
+
+        .scroll-wrapper {
+            overflow: hidden;
         }
 
         .horizontal-scroll {
             display: flex;
-            gap: 1.5rem;
+            gap: 2rem;
             overflow-x: auto;
             scroll-behavior: smooth;
-            padding-bottom: 1rem;
+            padding: 0.5rem 0;
             scroll-snap-type: x mandatory;
+            cursor: grab;
         }
 
         .horizontal-scroll::-webkit-scrollbar {
-            height: 4px;
+            height: 0;
+            display: none;
         }
 
-        .horizontal-scroll::-webkit-scrollbar-track {
-            background: #141414;
-        }
-
-        .horizontal-scroll::-webkit-scrollbar-thumb {
-            background: #C8A96E;
-            border-radius: 2px;
+        .horizontal-scroll.active {
+            cursor: grabbing;
         }
 
         .scroll-card {
-            flex: 0 0 280px;
+            flex: 0 0 240px;
             background-color: #141414;
             aspect-ratio: 3/4;
             overflow: hidden;
             position: relative;
             scroll-snap-align: start;
-            cursor: grab;
             transition: transform 0.3s ease;
         }
 
-        .scroll-card:active {
-            cursor: grabbing;
-        }
-
         .scroll-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-6px);
         }
 
-        .scroll-card-image {
+        .scroll-image {
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
         }
 
-        /* Footer */
-        footer {
+        /* ============ BRAND STORY SECTION ============ */
+        .story-section {
+            padding: 6rem 4rem;
             background-color: #141414;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-image {
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+        }
+
+        .story-content h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+            color: #C8A96E;
+        }
+
+        .story-content p {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: #D4D4D4;
+            line-height: 1.8;
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            background-color: #0A0A0A;
             padding: 4rem;
-            border-top: 1px solid rgba(200, 169, 110, 0.2);
+            border-top: 1px solid rgba(200, 169, 110, 0.12);
         }
 
         .footer-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
             gap: 4rem;
             margin-bottom: 3rem;
         }
 
-        .newsletter {
+        .footer-section h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .newsletter-form {
             display: flex;
             flex-direction: column;
+            gap: 1rem;
         }
 
-        .newsletter h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .newsletter p {
-            color: #C8A96E;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .newsletter-input {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .newsletter-input input {
-            flex: 1;
+        .newsletter-form input {
             padding: 1rem;
-            background-color: #0A0A0A;
-            border: 1px solid #C8A96E;
+            background-color: rgba(200, 169, 110, 0.05);
+            border: 1px solid rgba(200, 169, 110, 0.3);
             color: #F5F0E8;
             font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
         }
 
-        .newsletter-input input:focus {
+        .newsletter-form input:focus {
             outline: none;
-            border-color: #D4B88A;
-            box-shadow: 0 0 20px rgba(200, 169, 110, 0.2);
+            border-color: #C8A96E;
+            background-color: rgba(200, 169, 110, 0.08);
         }
 
-        .newsletter-input button {
-            padding: 1rem 2rem;
+        .newsletter-form button {
+            padding: 1rem;
             background-color: #C8A96E;
             color: #0A0A0A;
             border: none;
+            font-family: 'DM Sans', sans-serif;
             font-weight: 700;
-            letter-spacing: 0.05em;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .newsletter-input button:hover {
+        .newsletter-form button:hover {
             background-color: #D4B88A;
+            transform: translateY(-2px);
         }
 
         .footer-links {
@@ -545,17 +653,12 @@
             gap: 1rem;
         }
 
-        .footer-links h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
         .footer-links a {
             color: #F5F0E8;
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.3s ease;
+            letter-spacing: 0.02em;
         }
 
         .footer-links a:hover {
@@ -564,35 +667,21 @@
 
         .footer-bottom {
             text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(200, 169, 110, 0.1);
-            color: #999;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(200, 169, 110, 0.12);
+            color: #888;
             font-size: 0.85rem;
+            letter-spacing: 0.05em;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav {
-                padding: 1.5rem 2rem;
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            nav.scrolled {
-                padding: 1.25rem 2rem;
-            }
-
-            .nav-links {
-                gap: 1.5rem;
-                font-size: 0.85rem;
-            }
-
-            .products-section {
-                padding: 3rem 2rem;
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1024px) {
+            .featured-section {
+                padding: 4rem 2rem;
             }
 
             .product-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(3, 1fr);
                 gap: 1.5rem;
             }
 
@@ -601,12 +690,117 @@
                 grid-row: span 1;
             }
 
-            .scroll-section {
-                padding: 2rem;
+            .story-section {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+            }
+
+            .arrivals-section {
+                padding: 3rem 2rem;
+            }
+
+            .scroll-card {
+                flex: 0 0 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .announcement {
+                padding: 0.6rem 1rem;
+                font-size: 0.75rem;
+            }
+
+            nav {
+                top: 2.5rem;
+                padding: 1rem 1.5rem;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            nav.scrolled {
+                padding: 0.9rem 1.5rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+                order: 0;
+            }
+
+            .nav-left {
+                position: static;
+                display: none;
+                width: 100%;
+                gap: 2rem;
+                order: 3;
+                padding-top: 1rem;
+                border-top: 1px solid rgba(200, 169, 110, 0.1);
+                margin-top: 1rem;
+            }
+
+            .nav-left.active {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .nav-right {
+                position: static;
+                order: 2;
+            }
+
+            .hamburger {
+                display: flex;
+                order: 1;
+            }
+
+            .nav-links {
+                display: none;
             }
 
             .hero {
-                padding: 0 2rem;
+                padding-bottom: 4rem;
+                margin-top: 2.5rem;
+            }
+
+            .hero-content {
+                padding-left: 2rem;
+                padding-right: 2rem;
+                max-width: 100%;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 8vw, 4rem);
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .featured-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .scroll-card {
+                flex: 0 0 160px;
+            }
+
+            .story-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .story-content h2 {
+                font-size: 1.8rem;
             }
 
             .footer-content {
@@ -615,26 +809,114 @@
             }
 
             .marquee-item {
-                padding: 0 1.5rem;
-                font-size: 1.2rem;
+                padding: 0 1rem;
+                font-size: 0.9rem;
             }
         }
 
         @media (max-width: 480px) {
-            .nav-links {
-                display: none;
+            .announcement {
+                font-size: 0.7rem;
+                padding: 0.5rem 1rem;
+            }
+
+            nav {
+                top: auto;
+                position: relative;
+                padding: 1rem;
+                background-color: #0A0A0A;
+                border-bottom: 1px solid rgba(200, 169, 110, 0.12);
+            }
+
+            nav.scrolled {
+                background-color: #0A0A0A;
+                backdrop-filter: none;
+            }
+
+            .logo {
+                font-size: 1rem;
+                letter-spacing: 0.1em;
+            }
+
+            .hero {
+                height: 80vh;
+                margin-top: 0;
+                padding-bottom: 2.5rem;
+            }
+
+            .hero-content {
+                padding: 0 1.5rem;
+                max-width: 100%;
             }
 
             .hero h1 {
-                font-size: clamp(2rem, 10vw, 3rem);
+                font-size: clamp(1.8rem, 6vw, 3rem);
+                margin-bottom: 1rem;
+            }
+
+            .hero-cta {
+                margin-top: 1.5rem;
+            }
+
+            .cta-link {
+                font-size: 0.95rem;
+            }
+
+            .section-title {
+                font-size: clamp(2rem, 7vw, 3rem);
+                margin-bottom: 2rem;
+            }
+
+            .featured-section {
+                padding: 2rem 1rem;
             }
 
             .product-grid {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-bottom: 3rem;
             }
 
-            .newsletter-input {
-                flex-direction: column;
+            .arrivals-section {
+                padding: 2rem 1rem;
+            }
+
+            .scroll-card {
+                flex: 0 0 150px;
+            }
+
+            .arrivals-title {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .story-section {
+                padding: 2rem 1rem;
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .story-content h2 {
+                font-size: 1.4rem;
+            }
+
+            footer {
+                padding: 2rem 1rem;
+            }
+
+            .footer-content {
+                gap: 1.5rem;
+            }
+
+            .marquee-item {
+                padding: 0 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .newsletter-form input,
+            .newsletter-form button {
+                font-size: 0.85rem;
+                padding: 0.9rem;
             }
         }
     </style>
@@ -642,204 +924,296 @@
 <body>
     <div class="grain"></div>
 
+    <!-- Announcement Bar -->
+    <div class="announcement">
+        SPRING COLLECTION NOW AVAILABLE · COMPLIMENTARY SHIPPING ON ORDERS OVER $500
+    </div>
+
     <!-- Navigation -->
     <nav id="navbar">
-        <div class="logo">LUXE</div>
-        <ul class="nav-links">
-            <li><a href="#products">Collections</a></li>
-            <li><a href="#featured">Featured</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="logo">LUXE STUDIO</div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-left" id="navLeft">
+            <ul class="nav-links">
+                <li><a href="#collection">Collections</a></li>
+                <li><a href="#featured">Featured</a></li>
+                <li><a href="#story">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
         <div class="nav-right">
-            <div class="cart-icon">🛍</div>
+            <div class="nav-icons">
+                <button class="icon-btn" title="Search">🔍</button>
+                <button class="icon-btn" title="Account">👤</button>
+                <button class="icon-btn" title="Cart">🛍</button>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-image"></div>
+        <div class="hero-bg"></div>
+        <div class="hero-image-placeholder"></div>
         <div class="hero-content">
-            <h1>Timeless Elegance</h1>
-            <p>Curated luxury collection for the discerning</p>
+            <h1>
+                <span>Architectural</span>
+                <span>Elegance</span>
+            </h1>
             <div class="hero-cta">
-                <button class="btn btn-primary">Shop Collection</button>
-                <button class="btn btn-secondary">Learn More</button>
+                <a href="#featured" class="cta-link">Explore Collection →</a>
             </div>
         </div>
     </section>
 
-    <!-- Marquee -->
+    <!-- Marquee Ticker -->
     <div class="marquee-section">
-        <div class="marquee">
-            <div class="marquee-item">✦ Handcrafted Excellence ✦</div>
-            <div class="marquee-item">✦ Sustainable Luxury ✦</div>
-            <div class="marquee-item">✦ Timeless Design ✦</div>
-            <div class="marquee-item">✦ Handcrafted Excellence ✦</div>
-            <div class="marquee-item">✦ Sustainable Luxury ✦</div>
-            <div class="marquee-item">✦ Timeless Design ✦</div>
+        <div class="marquee-content">
+            <div class="marquee-item">Curated for Discerning Tastes</div>
+            <div class="marquee-item">Handcrafted Excellence</div>
+            <div class="marquee-item">Sustainable Luxury</div>
+            <div class="marquee-item">Timeless Design Philosophy</div>
+            <div class="marquee-item">Curated for Discerning Tastes</div>
+            <div class="marquee-item">Handcrafted Excellence</div>
+            <div class="marquee-item">Sustainable Luxury</div>
+            <div class="marquee-item">Timeless Design Philosophy</div>
         </div>
     </div>
 
-    <!-- Products Section -->
-    <section class="products-section" id="products">
-        <h2 class="section-title">Curated Selection</h2>
+    <!-- Featured Collection Grid -->
+    <section class="featured-section" id="featured">
+        <div class="section-label">Curated Selection</div>
+        <h2 class="section-title">Featured Collection</h2>
         <div class="product-grid">
             <div class="product-card">
                 <div class="product-image"></div>
                 <div class="product-overlay">
-                    <div class="product-name">Signature Silk Blazer</div>
+                    <div class="product-label">Spring 2025</div>
+                    <div class="product-name">Silk Overcoat</div>
                     <div class="product-price">$2,450</div>
-                    <button class="quick-add">Quick Add</button>
+                    <button class="quick-add-btn">Quick Add</button>
                 </div>
             </div>
             <div class="product-card">
                 <div class="product-image"></div>
                 <div class="product-overlay">
-                    <div class="product-name">Tailored Wool Trousers</div>
+                    <div class="product-label">Tailored</div>
+                    <div class="product-name">Wool Trousers</div>
                     <div class="product-price">$1,890</div>
-                    <button class="quick-add">Quick Add</button>
+                    <button class="quick-add-btn">Quick Add</button>
                 </div>
             </div>
             <div class="product-card">
                 <div class="product-image"></div>
                 <div class="product-overlay">
-                    <div class="product-name">Leather Oxford Shoes</div>
+                    <div class="product-label">Footwear</div>
+                    <div class="product-name">Leather Oxfords</div>
                     <div class="product-price">$1,650</div>
-                    <button class="quick-add">Quick Add</button>
+                    <button class="quick-add-btn">Quick Add</button>
                 </div>
             </div>
             <div class="product-card">
                 <div class="product-image"></div>
                 <div class="product-overlay">
-                    <div class="product-name">Cashmere Turtleneck</div>
-                    <div class="product-price">$950</div>
-                    <button class="quick-add">Quick Add</button>
+                    <div class="product-label">Accessories</div>
+                    <div class="product-name">Cashmere Scarf</div>
+                    <div class="product-price">$890</div>
+                    <button class="quick-add-btn">Quick Add</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Horizontal Scroll Section -->
-    <section class="scroll-section" id="featured">
-        <h2 class="scroll-title">New Arrivals</h2>
-        <div class="horizontal-scroll" id="horizontalScroll">
-            <div class="scroll-card">
-                <div class="scroll-card-image"></div>
+    <!-- New Arrivals Horizontal Scroll -->
+    <section class="arrivals-section">
+        <h2 class="arrivals-title">New Arrivals</h2>
+        <div class="scroll-wrapper">
+            <div class="horizontal-scroll" id="scrollContainer">
+                <div class="scroll-card">
+                    <div class="scroll-image"></div>
+                </div>
+                <div class="scroll-card">
+                    <div class="scroll-image"></div>
+                </div>
+                <div class="scroll-card">
+                    <div class="scroll-image"></div>
+                </div>
+                <div class="scroll-card">
+                    <div class="scroll-image"></div>
+                </div>
+                <div class="scroll-card">
+                    <div class="scroll-image"></div>
+                </div>
+                <div class="scroll-card">
+                    <div class="scroll-image"></div>
+                </div>
             </div>
-            <div class="scroll-card">
-                <div class="scroll-card-image"></div>
-            </div>
-            <div class="scroll-card">
-                <div class="scroll-card-image"></div>
-            </div>
-            <div class="scroll-card">
-                <div class="scroll-card-image"></div>
-            </div>
-            <div class="scroll-card">
-                <div class="scroll-card-image"></div>
-            </div>
-            <div class="scroll-card">
-                <div class="scroll-card-image"></div>
-            </div>
+        </div>
+    </section>
+
+    <!-- Brand Story Section -->
+    <section class="story-section" id="story">
+        <div class="story-image"></div>
+        <div class="story-content">
+            <h2>"Where architecture meets fabric. Design without compromise."</h2>
+            <p>For over two decades, we have curated a collection that transcends seasonal trends. Each piece is selected for its architectural integrity, embracing minimalism with generous proportions and a rigorous attention to materials.</p>
+            <p>Our editorial approach celebrates the intersection of form and function—clothing as spatial experience. We believe in the power of restraint, the beauty of silence, and the luxury of simplicity.</p>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer id="footer">
         <div class="footer-content">
-            <div class="newsletter">
-                <h3>Join Our Circle</h3>
-                <p>Receive exclusive access to new collections and private events</p>
-                <div class="newsletter-input">
-                    <input type="email" placeholder="Your email address">
-                    <button>Subscribe</button>
+            <div class="footer-section">
+                <h3>Stay Connected</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+            <div class="footer-section">
+                <h3>Collections</h3>
+                <div class="footer-links">
+                    <a href="#collection">Spring 2025</a>
+                    <a href="#collection">Archive</a>
+                    <a href="#collection">Capsule</a>
+                    <a href="#collection">Collaborations</a>
                 </div>
             </div>
-            <div class="footer-links">
-                <h3>Navigate</h3>
-                <a href="#products">Collections</a>
-                <a href="#about">About Us</a>
-                <a href="#contact">Contact</a>
-                <a href="#privacy">Privacy Policy</a>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <div class="footer-links">
+                    <a href="#contact">Contact</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="#shipping">Shipping & Returns</a>
+                    <a href="#care">Care Guide</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Studio</h3>
+                <div class="footer-links">
+                    <a href="#about">About</a>
+                    <a href="#press">Press</a>
+                    <a href="#careers">Careers</a>
+                    <a href="#sustainability">Sustainability</a>
+                </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 LUXE. All rights reserved. Elegance in every thread.</p>
+            © 2025 Luxe Studio. All rights reserved. Made with precision.
         </div>
     </footer>
 
     <script>
-        // Sticky Navigation
+        // ============ NAVBAR SCROLL EFFECT ============
         const navbar = document.getElementById('navbar');
+        let lastScrollPosition = 0;
+
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
+            const currentScrollPosition = window.scrollY;
+            
+            if (currentScrollPosition > 150) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
+            
+            lastScrollPosition = currentScrollPosition;
         });
 
-        // Smooth Scroll for Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
+        // ============ MOBILE HAMBURGER MENU ============
+        const hamburger = document.getElementById('hamburger');
+        const navLeft = document.getElementById('navLeft');
+
+        hamburger.addEventListener('click', () => {
+            navLeft.classList.toggle('active');
+        });
+
+        // Close menu when link is clicked
+        const navLinks = navLeft.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navLeft.classList.remove('active');
             });
         });
 
-        // Horizontal Scroll Drag
-        const horizontalScroll = document.getElementById('horizontalScroll');
+        // ============ HORIZONTAL SCROLL DRAG ============
+        const scrollContainer = document.getElementById('scrollContainer');
         let isDown = false;
         let startX;
         let scrollLeft;
 
-        horizontalScroll.addEventListener('mousedown', (e) => {
+        scrollContainer.addEventListener('mousedown', (e) => {
             isDown = true;
-            startX = e.pageX - horizontalScroll.offsetLeft;
-            scrollLeft = horizontalScroll.scrollLeft;
+            scrollContainer.classList.add('active');
+            startX = e.pageX - scrollContainer.offsetLeft;
+            scrollLeft = scrollContainer.scrollLeft;
         });
 
-        horizontalScroll.addEventListener('mouseleave', () => {
+        scrollContainer.addEventListener('mouseleave', () => {
             isDown = false;
+            scrollContainer.classList.remove('active');
         });
 
-        horizontalScroll.addEventListener('mouseup', () => {
+        scrollContainer.addEventListener('mouseup', () => {
             isDown = false;
+            scrollContainer.classList.remove('active');
         });
 
-        horizontalScroll.addEventListener('mousemove', (e) => {
+        scrollContainer.addEventListener('mousemove', (e) => {
             if (!isDown) return;
             e.preventDefault();
-            const x = e.pageX - horizontalScroll.offsetLeft;
-            const walk = (x - startX) * 2;
-            horizontalScroll.scrollLeft = scrollLeft - walk;
+            const x = e.pageX - scrollContainer.offsetLeft;
+            const walk = (x - startX) * 0.5;
+            scrollContainer.scrollLeft = scrollLeft - walk;
         });
 
-        // Newsletter Subscribe
-        document.querySelector('.newsletter-input button').addEventListener('click', () => {
-            const email = document.querySelector('.newsletter-input input').value;
-            if (email) {
-                alert(`Thank you for subscribing with ${email}`);
-                document.querySelector('.newsletter-input input').value = '';
-            }
+        // Touch support for mobile
+        scrollContainer.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - scrollContainer.offsetLeft;
+            scrollLeft = scrollContainer.scrollLeft;
         });
 
-        // Quick Add Button
-        document.querySelectorAll('.quick-add').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const productName = this.previousElementSibling.previousElementSibling.textContent;
-                alert(`Added "${productName}" to cart`);
+        scrollContainer.addEventListener('touchend', () => {
+            isDown = false;
+        });
+
+        scrollContainer.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - scrollContainer.offsetLeft;
+            const walk = (x - startX) * 0.5;
+            scrollContainer.scrollLeft = scrollLeft - walk;
+        });
+
+        // ============ NEWSLETTER FORM ============
+        const newsletterForm = document.querySelector('.newsletter-form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = newsletterForm.querySelector('input[type="email"]').value;
+                if (email) {
+                    alert(`Thank you for subscribing: ${email}`);
+                    newsletterForm.reset();
+                }
             });
-        });
+        }
 
-        // Cart Icon
-        document.querySelector('.cart-icon').addEventListener('click', () => {
-            alert('Your cart is currently empty');
+        // ============ SMOOTH SCROLL LINKS ============
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && document.querySelector(href)) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
     </script>
 </body>
