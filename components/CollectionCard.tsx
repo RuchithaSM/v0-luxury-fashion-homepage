@@ -48,12 +48,11 @@ export default function CollectionCard({
             />
           </motion.div>
 
-            {/* Overlay */}
-            <motion.div
-              className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500"
-              animate={{ backgroundColor: isHovered ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0)' }}
-            />
-          </motion.div>
+          {/* Overlay */}
+          <motion.div
+            className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500"
+            animate={{ backgroundColor: isHovered ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0)' }}
+          />
 
           {/* Content overlay */}
           <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
