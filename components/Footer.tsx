@@ -119,6 +119,7 @@ export default function Footer() {
             </h4>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <input
+                suppressHydrationWarning
                 type="email"
                 placeholder="your@email.com"
                 value={email}
@@ -127,6 +128,7 @@ export default function Footer() {
                 required
               />
               <button
+                suppressHydrationWarning
                 type="submit"
                 className="px-4 py-2 bg-accent text-foreground font-sans text-sm font-medium hover:bg-accent-secondary transition-colors"
               >
