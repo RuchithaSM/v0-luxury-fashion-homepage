@@ -1,6 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import { validateCoupon } from '@/lib/coupons'
 
 export interface CartItem {
   id: string
@@ -20,6 +21,11 @@ interface CartContextType {
   clearCart: () => void
   cartTotal: number
   cartCount: number
+  applyCoupon: (code: string) => { success: boolean; discountAmount?: number; error?: string }
+  removeCoupon: () => void
+  appliedCoupon?: string
+  discountAmount: number
+  finalTotal: number
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
@@ -27,6 +33,8 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([])
   const [mounted, setMounted] = useState(false)
+  const [appliedCoupon, setAppliedCoupon] = useState<string | undefined>(undefined)
+  const [discountAmount, setDiscountAmount] = useState(0)
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -91,7 +99,26 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setCart([])
   }
 
+  const handleApplyCoupon = (code: string) => {
+    const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0)
+    const result = validateCoupon(code, cartTotal)
+    
+    if (result.valid && result.discount !== undefined) {
+      setAppliedCoupon(code.toUpperCase())
+      setDiscountAmount(result.discount)
+      return { success: true, discountAmount: result.discount }
+    }
+    
+    return { success: false, error: result.error }
+  }
+
+  const removeCoupon = () => {
+    setAppliedCoupon(undefined)
+    setDiscountAmount(0)
+  }
+
   const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0)
+  const finalTotal = cartTotal - discountAmount
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0)
 
   return (
@@ -104,6 +131,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         clearCart,
         cartTotal,
         cartCount,
+        applyCoupon: handleApplyCoupon,
+        removeCoupon,
+        appliedCoupon,
+        discountAmount,
+        finalTotal,
       }}
     >
       {children}

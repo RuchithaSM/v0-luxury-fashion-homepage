@@ -1,16 +1,45 @@
 'use client'
 
+import { useState } from 'react'
 import { useCart } from '@/context/CartContext'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { formatINR } from '@/lib/currency'
 
 export default function CartPage() {
-  const { cart, removeFromCart, updateQuantity, clearCart, cartTotal } = useCart()
+  const { cart, removeFromCart, updateQuantity, clearCart, cartTotal, applyCoupon, removeCoupon, discountAmount, appliedCoupon } = useCart()
+  const [couponCode, setCouponCode] = useState('')
+  const [couponError, setCouponError] = useState('')
+  const [couponSuccess, setCouponSuccess] = useState('')
 
   const shippingCost = cart.length > 0 ? 10 : 0
-  const tax = cartTotal * 0.08
-  const finalTotal = cartTotal + shippingCost + tax
+  const tax = Math.round(cartTotal * 0.08)
+  const finalTotal = Math.round(cartTotal + shippingCost + tax - discountAmount)
+
+  const handleApplyCoupon = () => {
+    setCouponError('')
+    setCouponSuccess('')
+    
+    if (!couponCode.trim()) {
+      setCouponError('Please enter a coupon code')
+      return
+    }
+
+    const result = applyCoupon(couponCode)
+    if (result.success) {
+      setCouponSuccess(`Coupon applied! You save ${formatINR(result.discountAmount || 0)}`)
+      setCouponCode('')
+    } else {
+      setCouponError(result.error || 'Invalid coupon code')
+    }
+  }
+
+  const handleRemoveCoupon = () => {
+    removeCoupon()
+    setCouponError('')
+    setCouponSuccess('')
+  }
 
   return (
     <main className="min-h-screen bg-background pt-32 pb-20 px-4 sm:px-6">
@@ -77,7 +106,7 @@ export default function CartPage() {
                       {/* Price and Quantity */}
                       <div className="flex items-center justify-between">
                         <span className="font-serif font-semibold text-foreground">
-                          ${item.price * item.quantity}
+                          {formatINR(item.price * item.quantity)}
                         </span>
 
                         {/* Quantity Controls */}
@@ -146,45 +175,98 @@ export default function CartPage() {
                   Order Summary
                 </h2>
 
+                {/* Coupon Section */}
+                {!appliedCoupon && (
+                  <div className="mb-6 pb-6 border-b border-neutral-medium">
+                    <label className="block font-sans text-sm font-semibold text-foreground mb-2">
+                      Coupon Code
+                    </label>
+                    <div className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        placeholder="Enter coupon code"
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                        className="flex-1 px-3 py-2 bg-white border border-neutral-medium text-foreground placeholder-neutral-dark font-sans text-sm focus:outline-none focus:border-accent"
+                      />
+                      <button
+                        onClick={handleApplyCoupon}
+                        className="px-4 py-2 bg-accent text-white font-sans text-sm font-medium hover:bg-accent-secondary transition-colors"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                    {couponError && (
+                      <p className="text-red-600 text-xs font-sans">{couponError}</p>
+                    )}
+                  </div>
+                )}
+
+                {appliedCoupon && (
+                  <div className="mb-6 pb-6 border-b border-neutral-medium bg-green-50 p-3 rounded">
+                    <div className="flex justify-between items-center">
+                      <span className="font-sans text-sm text-green-700 font-medium">
+                        Coupon {appliedCoupon} Applied
+                      </span>
+                      <button
+                        onClick={handleRemoveCoupon}
+                        className="text-green-700 hover:text-green-900 text-xs font-medium"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {couponSuccess && (
+                  <div className="mb-6 pb-6 border-b border-neutral-medium bg-green-50 p-3 rounded">
+                    <p className="text-green-700 text-sm font-sans">{couponSuccess}</p>
+                  </div>
+                )}
+
                 {/* Summary Lines */}
                 <div className="space-y-4 mb-6 pb-6 border-b border-neutral-medium">
                   <div className="flex justify-between text-sm font-sans">
                     <span className="text-neutral-dark">Subtotal</span>
                     <span className="text-foreground font-medium">
-                      ${cartTotal.toFixed(2)}
+                      {formatINR(cartTotal)}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm font-sans">
                     <span className="text-neutral-dark">Shipping</span>
                     <span className="text-foreground font-medium">
-                      ${shippingCost.toFixed(2)}
+                      {formatINR(shippingCost)}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm font-sans">
                     <span className="text-neutral-dark">Tax (8%)</span>
                     <span className="text-foreground font-medium">
-                      ${tax.toFixed(2)}
+                      {formatINR(tax)}
                     </span>
                   </div>
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between text-sm font-sans text-green-600">
+                      <span>Discount</span>
+                      <span>-{formatINR(discountAmount)}</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Total */}
                 <div className="flex justify-between items-center mb-8">
                   <span className="font-serif font-semibold text-foreground">Total</span>
                   <span className="font-serif text-2xl font-bold text-accent">
-                    ${finalTotal.toFixed(2)}
+                    {formatINR(finalTotal)}
                   </span>
                 </div>
 
                 {/* Checkout Button */}
-                <motion.button
-                  suppressHydrationWarning
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full bg-accent text-background py-3 font-sans font-medium hover:bg-accent-secondary transition-colors rounded-sm mb-4"
+                <Link
+                  href="/checkout"
+                  className="block w-full bg-accent text-white text-center py-3 font-sans font-medium hover:bg-accent-secondary transition-colors rounded-sm mb-4"
                 >
                   Proceed to Checkout
-                </motion.button>
+                </Link>
 
                 {/* Clear Cart */}
                 <button

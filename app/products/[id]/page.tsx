@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getProductById, products } from '@/lib/products'
+import { formatINR, getPriceAfterDiscount } from '@/lib/currency'
 import AddToCartButton from '@/components/AddToCartButton'
 import ProductCard from '@/components/ProductCard'
 
@@ -19,6 +20,9 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [selectedSize, setSelectedSize] = useState<string>('')
   const [selectedColor, setSelectedColor] = useState<string>('')
   const [quantity, setQuantity] = useState(1)
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+  const [showReviewForm, setShowReviewForm] = useState(false)
+  const [newReview, setNewReview] = useState({ author: '', rating: 5, comment: '' })
 
   if (!product) {
     return (
@@ -56,20 +60,45 @@ export default function ProductPage({ params }: ProductPageProps) {
       {/* Product Section */}
       <div className="px-4 sm:px-6 mb-16">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          {/* Image */}
+          {/* Image Gallery */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative bg-neutral-light aspect-square rounded-sm overflow-hidden"
+            className="flex flex-col gap-4"
           >
-            <Image
-              src={product.image}
-              alt={product.title}
-              fill
-              className="object-cover"
-              priority
-            />
+            {/* Main Image */}
+            <div className="relative bg-neutral-light aspect-square rounded-sm overflow-hidden">
+              <Image
+                src={product.images?.[selectedImageIndex] || product.image}
+                alt={product.title}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+            
+            {/* Thumbnail Gallery */}
+            {product.images && product.images.length > 1 && (
+              <div className="flex gap-3">
+                {product.images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImageIndex(idx)}
+                    className={`relative w-20 h-20 rounded-sm overflow-hidden border-2 transition-all ${
+                      selectedImageIndex === idx ? 'border-accent' : 'border-neutral-medium'
+                    }`}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${product.title} view ${idx + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </motion.div>
 
           {/* Details */}
@@ -87,9 +116,21 @@ export default function ProductPage({ params }: ProductPageProps) {
               <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-3">
                 {product.title}
               </h1>
-              <p className="font-serif text-2xl font-semibold text-accent mb-4">
-                ${product.price}
-              </p>
+              <div className="flex items-center gap-4 mb-4">
+                <p className="font-serif text-2xl font-semibold text-accent">
+                  {formatINR(getPriceAfterDiscount(product.priceINR, product.discount || 0))}
+                </p>
+                {product.discount ? (
+                  <>
+                    <p className="font-sans text-lg text-neutral-dark line-through">
+                      {formatINR(product.priceINR)}
+                    </p>
+                    <p className="font-sans text-sm font-bold text-red-600 bg-red-50 px-3 py-1 rounded">
+                      {product.discount}% OFF
+                    </p>
+                  </>
+                ) : null}
+              </div>
               <p className="font-sans text-neutral-dark text-lg">{product.description}</p>
             </div>
 
@@ -174,7 +215,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             <AddToCartButton
               productId={product.id}
               productTitle={product.title}
-              productPrice={product.price}
+              productPrice={getPriceAfterDiscount(product.priceINR, product.discount || 0)}
               productImage={product.image}
               selectedSize={selectedSize}
               selectedColor={selectedColor}
@@ -190,6 +231,137 @@ export default function ProductPage({ params }: ProductPageProps) {
                     ? `Only ${product.stock} left in stock`
                     : 'Out of stock'}
               </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Reviews Section */}
+      <div className="px-4 sm:px-6 border-t border-neutral-medium py-16">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h2 className="font-serif text-3xl font-bold text-foreground mb-2">
+                  Customer Reviews
+                </h2>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <span key={i} className={i < Math.floor(product.rating || 0) ? 'text-accent' : 'text-neutral-medium'}>
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                  <span className="font-sans text-sm text-neutral-dark">
+                    {product.rating?.toFixed(1)}/5 ({product.reviews?.length || 0} reviews)
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowReviewForm(!showReviewForm)}
+                className="px-6 py-2 bg-accent text-white font-sans text-sm font-medium hover:bg-accent-secondary transition-colors"
+              >
+                Write Review
+              </button>
+            </div>
+
+            {/* Review Form */}
+            {showReviewForm && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-8 p-6 bg-neutral-light rounded-sm border border-neutral-medium"
+              >
+                <h3 className="font-serif text-lg font-bold text-foreground mb-4">Share Your Review</h3>
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    value={newReview.author}
+                    onChange={(e) => setNewReview({ ...newReview, author: e.target.value })}
+                    className="w-full px-4 py-2 bg-white border border-neutral-medium text-foreground placeholder-neutral-dark font-sans focus:outline-none focus:border-accent"
+                  />
+                  <div>
+                    <label className="block font-sans text-sm font-semibold text-foreground mb-2">
+                      Rating
+                    </label>
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          onClick={() => setNewReview({ ...newReview, rating: star })}
+                          className={`text-2xl transition-colors ${
+                            star <= newReview.rating ? 'text-accent' : 'text-neutral-medium'
+                          }`}
+                        >
+                          ★
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <textarea
+                    placeholder="Your review..."
+                    value={newReview.comment}
+                    onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+                    className="w-full px-4 py-2 bg-white border border-neutral-medium text-foreground placeholder-neutral-dark font-sans focus:outline-none focus:border-accent h-24 resize-none"
+                  />
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => {
+                        // Submit review (would be backend in real app)
+                        setShowReviewForm(false)
+                        setNewReview({ author: '', rating: 5, comment: '' })
+                      }}
+                      className="px-6 py-2 bg-accent text-white font-sans text-sm font-medium hover:bg-accent-secondary transition-colors"
+                    >
+                      Submit Review
+                    </button>
+                    <button
+                      onClick={() => setShowReviewForm(false)}
+                      className="px-6 py-2 border border-foreground text-foreground font-sans text-sm font-medium hover:bg-foreground hover:text-white transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Reviews List */}
+            <div className="space-y-6">
+              {product.reviews && product.reviews.length > 0 ? (
+                product.reviews.map((review, idx) => (
+                  <motion.div
+                    key={review.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="pb-6 border-b border-neutral-medium last:border-0"
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-serif font-semibold text-foreground">{review.author}</h4>
+                      <span className="font-sans text-xs text-neutral-dark">{review.date}</span>
+                    </div>
+                    <div className="flex gap-1 mb-3">
+                      {[...Array(5)].map((_, i) => (
+                        <span key={i} className={i < review.rating ? 'text-accent text-sm' : 'text-neutral-medium text-sm'}>
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                    <p className="font-sans text-sm text-foreground leading-relaxed">{review.comment}</p>
+                  </motion.div>
+                ))
+              ) : (
+                <p className="font-sans text-sm text-neutral-dark">No reviews yet. Be the first to review!</p>
+              )}
             </div>
           </motion.div>
         </div>
