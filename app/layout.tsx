@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { CartProvider } from '@/context/CartContext'
 import './globals.css'
 
 const playfairDisplay = Playfair_Display({
@@ -46,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${playfairDisplay.variable} ${inter.variable} font-sans antialiased bg-background text-foreground`}>
-        {children}
+        <CartProvider>{children}</CartProvider>
         <Analytics />
       </body>
     </html>

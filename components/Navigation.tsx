@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
+import CartIcon from './CartIcon'
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -37,6 +38,13 @@ export default function Navigation() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           <Link
+            href="/shop"
+            className="font-sans text-sm text-foreground hover:text-accent transition-colors relative group"
+          >
+            Shop
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300" />
+          </Link>
+          <Link
             href="#collections"
             className="font-sans text-sm text-foreground hover:text-accent transition-colors relative group"
           >
@@ -57,21 +65,32 @@ export default function Navigation() {
             Contact
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300" />
           </Link>
+          <CartIcon />
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden p-2 text-foreground hover:text-accent transition-colors"
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-        >
-          {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile Menu Button and Cart Icon */}
+        <div className="md:hidden flex items-center gap-4">
+          <CartIcon />
+          <button
+            className="p-2 text-foreground hover:text-accent transition-colors"
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
+          >
+            {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
       {isMobileOpen && (
         <div className="md:hidden bg-white border-b border-neutral-medium">
           <div className="px-6 py-4 space-y-4">
+            <Link
+              href="/shop"
+              className="block font-sans text-sm text-foreground hover:text-accent transition-colors"
+              onClick={() => setIsMobileOpen(false)}
+            >
+              Shop
+            </Link>
             <Link
               href="#collections"
               className="block font-sans text-sm text-foreground hover:text-accent transition-colors"
