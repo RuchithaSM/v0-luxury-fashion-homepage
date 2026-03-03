@@ -211,16 +211,26 @@ export default function ProductPage({ params }: ProductPageProps) {
               </div>
             </div>
 
-            {/* Add to Cart */}
-            <AddToCartButton
-              productId={product.id}
-              productTitle={product.title}
-              productPrice={getPriceAfterDiscount(product.priceINR, product.discount || 0)}
-              productImage={product.image}
-              selectedSize={selectedSize}
-              selectedColor={selectedColor}
-              quantity={quantity}
-            />
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1">
+                <AddToCartButton
+                  productId={product.id}
+                  productTitle={product.title}
+                  productPrice={getPriceAfterDiscount(product.priceINR, product.discount || 0)}
+                  productImage={product.image}
+                  selectedSize={selectedSize}
+                  selectedColor={selectedColor}
+                  quantity={quantity}
+                />
+              </div>
+              <Link
+                href="/checkout"
+                className="px-8 py-3 border-2 border-accent text-accent font-sans font-medium hover:bg-accent hover:text-white transition-all duration-300 rounded-sm text-center"
+              >
+                Buy Now
+              </Link>
+            </div>
 
             {/* Stock Info */}
             <div className="mt-8 pt-8 border-t border-neutral-medium">

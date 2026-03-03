@@ -1,17 +1,27 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import ProductCard from '@/components/ProductCard'
 import { products, categories } from '@/lib/products'
 
 export default function ShopPage() {
+  const searchParams = useSearchParams()
+  const collectionParam = searchParams.get('collection')
+  
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const [selectedCollection, setSelectedCollection] = useState(collectionParam || '')
   const [sortBy, setSortBy] = useState('newest')
-  const [priceRange, setPriceRange] = useState([0, 500])
+  const [priceRange, setPriceRange] = useState([0, 50000])
 
   const filteredProducts = useMemo(() => {
     let filtered = products
+
+    // Filter by collection if specified
+    if (selectedCollection) {
+      filtered = filtered.filter((p) => p.collection === selectedCollection)
+    }
 
     // Filter by category
     if (selectedCategory !== 'All') {
@@ -19,19 +29,19 @@ export default function ShopPage() {
     }
 
     // Filter by price
-    filtered = filtered.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1])
+    filtered = filtered.filter((p) => p.priceINR >= priceRange[0] && p.priceINR <= priceRange[1])
 
     // Sort
     if (sortBy === 'price-low') {
-      filtered = [...filtered].sort((a, b) => a.price - b.price)
+      filtered = [...filtered].sort((a, b) => a.priceINR - b.priceINR)
     } else if (sortBy === 'price-high') {
-      filtered = [...filtered].sort((a, b) => b.price - a.price)
+      filtered = [...filtered].sort((a, b) => b.priceINR - a.priceINR)
     } else if (sortBy === 'name') {
       filtered = [...filtered].sort((a, b) => a.title.localeCompare(b.title))
     }
 
     return filtered
-  }, [selectedCategory, sortBy, priceRange])
+  }, [selectedCategory, selectedCollection, sortBy, priceRange])
 
   return (
     <main className="min-h-screen bg-background pt-32 pb-20 px-4 sm:px-6">
@@ -86,8 +96,8 @@ export default function ShopPage() {
                   <input
                     type="range"
                     min="0"
-                    max="500"
-                    step="10"
+                    max="50000"
+                    step="1000"
                     value={priceRange[0]}
                     onChange={(e) => setPriceRange([parseInt(e.target.value), priceRange[1]])}
                     className="w-full accent-accent cursor-pointer"
@@ -97,15 +107,15 @@ export default function ShopPage() {
                   <input
                     type="range"
                     min="0"
-                    max="500"
-                    step="10"
+                    max="50000"
+                    step="1000"
                     value={priceRange[1]}
                     onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
                     className="w-full accent-accent cursor-pointer"
                   />
                 </div>
                 <p className="text-xs text-neutral-dark mt-3">
-                  ${priceRange[0]} - ${priceRange[1]}
+                  ₹{priceRange[0].toLocaleString('en-IN')} - ₹{priceRange[1].toLocaleString('en-IN')}
                 </p>
               </div>
 
@@ -156,7 +166,9 @@ export default function ShopPage() {
                 <button
                   onClick={() => {
                     setSelectedCategory('All')
-                    setPriceRange([0, 500])
+                    setSelectedCollection('')
+                    setPriceRange([0, 50000])
+                    setSortBy('newest')
                   }}
                   className="text-accent hover:text-accent-secondary transition-colors font-sans font-medium"
                 >

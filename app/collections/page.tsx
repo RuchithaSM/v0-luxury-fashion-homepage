@@ -64,7 +64,7 @@ export default function CollectionsPage() {
               transition={{ delay: index * 0.1 }}
               className="group cursor-pointer"
             >
-              <Link href="/shop">
+              <Link href={`/shop?collection=${encodeURIComponent(collection.name)}`}>
                 <div className="relative overflow-hidden bg-neutral-light rounded-sm mb-6 aspect-[4/5]">
                   <motion.div
                     className="w-full h-full"

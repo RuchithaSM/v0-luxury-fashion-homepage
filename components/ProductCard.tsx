@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Product } from '@/lib/products'
+import { formatINR, getPriceAfterDiscount } from '@/lib/currency'
 
 interface ProductCardProps {
   product: Product
@@ -64,9 +65,14 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
         </Link>
         <p className="text-sm text-neutral-dark mb-4">{product.description}</p>
         <div className="flex items-center justify-between">
-          <span className="font-serif text-lg font-semibold text-foreground">
-            ${product.price}
-          </span>
+          <div>
+            <span className="font-serif text-lg font-semibold text-foreground">
+              {formatINR(getPriceAfterDiscount(product.priceINR, product.discount || 0))}
+            </span>
+            {product.discount ? (
+              <p className="text-xs text-red-600 font-medium">-{product.discount}% OFF</p>
+            ) : null}
+          </div>
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{

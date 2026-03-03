@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null)
@@ -108,12 +109,12 @@ export default function Hero() {
           variants={ctaVariants}
           className="flex flex-col sm:flex-row gap-6 justify-center items-center"
         >
-          <button suppressHydrationWarning className="px-8 py-3 border-2 border-foreground text-foreground font-sans font-medium hover:bg-foreground hover:text-background transition-all duration-300">
+          <Link href="/collections" className="inline-block px-8 py-3 border-2 border-foreground text-foreground font-sans font-medium hover:bg-foreground hover:text-background transition-all duration-300">
             Explore Collections
-          </button>
-          <button suppressHydrationWarning className="px-8 py-3 bg-accent text-white font-sans font-medium hover:bg-accent-secondary transition-colors duration-300">
+          </Link>
+          <Link href="/shop" className="inline-block px-8 py-3 bg-accent text-white font-sans font-medium hover:bg-accent-secondary transition-colors duration-300">
             View New Arrivals
-          </button>
+          </Link>
         </motion.div>
       </div>
 
