@@ -78,7 +78,7 @@ export default function Collections() {
               subtitle={collection.subtitle}
               image={collection.image}
               delay={index * 0.05}
-              href={`/collection/${collection.id}`}
+              href={`/shop?collection=${encodeURIComponent(collection.title)}`}
               priority={index < 2}
             />
           ))}

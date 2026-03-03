@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useCart } from '@/context/CartContext'
 import { Product } from '@/lib/products'
 import { formatINR, getPriceAfterDiscount } from '@/lib/currency'
 
@@ -14,6 +15,26 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const [addedToCart, setAddedToCart] = useState(false)
+  const { addToCart } = useCart()
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: getPriceAfterDiscount(product.priceINR, product.discount || 0),
+      image: product.image,
+      quantity: 1,
+      size: product.sizes[0],
+      color: product.colors[0],
+    })
+    
+    setAddedToCart(true)
+    setTimeout(() => setAddedToCart(false), 2000)
+  }
 
   return (
     <motion.div
@@ -64,7 +85,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           </h3>
         </Link>
         <p className="text-sm text-neutral-dark mb-4">{product.description}</p>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <span className="font-serif text-lg font-semibold text-foreground">
               {formatINR(getPriceAfterDiscount(product.priceINR, product.discount || 0))}
@@ -83,6 +104,26 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           >
             <span className="text-accent text-sm font-medium">View →</span>
           </motion.div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-2">
+          <button
+            onClick={handleAddToCart}
+            className={`flex-1 px-3 py-2 text-xs font-medium rounded transition-all duration-300 ${
+              addedToCart
+                ? 'bg-green-600 text-white'
+                : 'bg-neutral-light text-foreground border border-neutral-medium hover:border-accent'
+            }`}
+          >
+            {addedToCart ? '✓ Added' : 'Add to Cart'}
+          </button>
+          <Link
+            href={`/products/${product.id}`}
+            className="flex-1 px-3 py-2 text-xs font-medium bg-accent text-white rounded hover:bg-accent-secondary transition-colors text-center"
+          >
+            Buy Now
+          </Link>
         </div>
       </div>
     </motion.div>

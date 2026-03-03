@@ -11,9 +11,18 @@ export default function ShopPage() {
   const collectionParam = searchParams.get('collection')
   
   const [selectedCategory, setSelectedCategory] = useState('All')
-  const [selectedCollection, setSelectedCollection] = useState(collectionParam || '')
+  const [selectedCollection, setSelectedCollection] = useState('')
   const [sortBy, setSortBy] = useState('newest')
   const [priceRange, setPriceRange] = useState([0, 50000])
+
+  // Update collection when URL parameter changes
+  useEffect(() => {
+    if (collectionParam) {
+      setSelectedCollection(collectionParam)
+    } else {
+      setSelectedCollection('')
+    }
+  }, [collectionParam])
 
   const filteredProducts = useMemo(() => {
     let filtered = products
