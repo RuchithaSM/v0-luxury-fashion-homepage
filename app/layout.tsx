@@ -18,20 +18,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Luxe Studio — Premium Portfolio',
   description: 'Minimalist luxury portfolio showcasing curated collections and editorial work',
-  generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
+  generator: 'Lekhstudios',
 }
 
 export const viewport: Viewport = {
