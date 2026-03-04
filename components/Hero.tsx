@@ -118,7 +118,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll Indicator
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         animate={{ y: [0, 8, 0] }}
@@ -127,7 +127,7 @@ export default function Hero() {
         <div className="w-6 h-10 border-2 border-foreground rounded-full flex items-center justify-center">
           <div className="w-1 h-2 bg-foreground rounded-full" />
         </div>
-      </motion.div>
+      </motion.div> */}
     </div>
   )
 }
