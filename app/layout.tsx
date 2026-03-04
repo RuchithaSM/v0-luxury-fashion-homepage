@@ -16,8 +16,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Luxe Studio — Premium Portfolio',
-  description: 'Minimalist luxury portfolio showcasing curated collections and editorial work',
+  title: 'Luxe Studio — Premium Fashion Collections',
+  description: 'Minimalist luxury Brand showcasing curated collections and editorial work',
   generator: 'Lekhstudios',
 }
 
