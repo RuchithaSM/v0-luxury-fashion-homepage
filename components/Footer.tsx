@@ -25,7 +25,7 @@ export default function Footer() {
           <div>
             <h3 className="font-serif text-2xl font-bold mb-4">LUXE</h3>
             <p className="font-sans text-sm text-background/80 leading-relaxed">
-              Premium portfolio and editorial collections crafted for those who
+              Premium editorial collections crafted for those who
               appreciate refined aesthetics.
             </p>
           </div>
@@ -144,13 +144,13 @@ export default function Footer() {
         {/* Bottom */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="font-sans text-sm text-background/80">
-            © 2024 Luxe Studio. All rights reserved.
+            © 2026 Luxe Studio. All rights reserved - by Ruchitha.
           </p>
 
           {/* Social Icons */}
           <div className="flex gap-4">
             <a
-              href="mailto:hello@luxestudio.com"
+              href="mailto:ruchithasm07@gmail.com"
               className="p-2 text-background/80 hover:text-accent transition-colors"
               aria-label="Email"
             >
@@ -164,7 +164,7 @@ export default function Footer() {
               <Instagram size={18} />
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/in/ruchithasm01220/"
               className="p-2 text-background/80 hover:text-accent transition-colors"
               aria-label="LinkedIn"
             >
